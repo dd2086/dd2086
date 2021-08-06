@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>http://localhost:4000</id>
+    <id>https://dd2086.github.io/</id>
     <title>DD2086&apos;S Blog</title>
-    <updated>2021-08-06T15:00:40.925Z</updated>
+    <updated>2021-08-06T15:13:02.053Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="http://localhost:4000"/>
-    <link rel="self" href="http://localhost:4000/atom.xml"/>
+    <link rel="alternate" href="https://dd2086.github.io/"/>
+    <link rel="self" href="https://dd2086.github.io/atom.xml"/>
     <subtitle>欢迎光临！</subtitle>
-    <logo>http://localhost:4000/images/avatar.png</logo>
-    <icon>http://localhost:4000/favicon.ico</icon>
+    <logo>https://dd2086.github.io/images/avatar.png</logo>
+    <icon>https://dd2086.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, DD2086&apos;S Blog</rights>
     <entry>
-        <title type="html"><![CDATA[舆情监控工具之--“我为政府网站找错”]]></title>
-        <id>http://localhost:4000/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/</id>
-        <link href="http://localhost:4000/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/">
+        <title type="html"><![CDATA[舆情监控工具之-“我为政府网站找错”]]></title>
+        <id>https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/</id>
+        <link href="https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/">
         </link>
         <updated>2021-08-06T14:56:01.000Z</updated>
         <content type="html"><![CDATA[<p>舆情监控工具之–“我为政府网站找错”–从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。</p>
@@ -26,7 +26,7 @@
 系统提供3种报警功能：电脑发声报警、邮件提醒和短信提醒。<br>
 系统检测到问题后，可直观列出，可查看问题详细情况。<br>
 工具界面截图展示：</p>
-<figure data-type="image" tabindex="1"><img src="http://localhost:4000/post-images/1628261917637.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://dd2086.github.io//post-images/1628261917637.png" alt="" loading="lazy"></figure>
 <p>购买咨询<br>
 有需要的朋友们，与我联系吧，功能实用，价格优惠，欢迎咨询！<br>
 联系人：王女士<br>
@@ -37,8 +37,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>http://localhost:4000/post/hello-gridea/</id>
-        <link href="http://localhost:4000/post/hello-gridea/">
+        <id>https://dd2086.github.io/post/hello-gridea/</id>
+        <link href="https://dd2086.github.io/post/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
