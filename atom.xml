@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dd2086.github.io/</id>
     <title>DD2086&apos;S Blog</title>
-    <updated>2021-08-06T14:54:00.341Z</updated>
+    <updated>2021-08-06T14:59:15.076Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dd2086.github.io/"/>
     <link rel="self" href="https://dd2086.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://dd2086.github.io/images/avatar.png</logo>
     <icon>https://dd2086.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, DD2086&apos;S Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[舆情监控工具之--“我为政府网站找错”]]></title>
+        <id>https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/</id>
+        <link href="https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/">
+        </link>
+        <updated>2021-08-06T14:56:01.000Z</updated>
+        <content type="html"><![CDATA[<p>舆情监控工具之–“我为政府网站找错”–从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。</p>
+<p>舆情监控工具之–“我为政府网站找错”<br>
+从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。甚至，开普互联公司还为国办开发了一个专门的“我要找错”系统，将各级政府网站的问题在“曝光台”上进行公开（网址：http://jiucuo.kaipuyun.cn/errorInfo/search）。借此，我为大家推荐一款“曝光台”的舆情监控工具。</p>
+<p>工具名称：舆情监控工具之–“我为政府网站找错”<br>
+此款工具功能简单、实用，操作便捷，省去了很多人工监测的麻烦，方便快捷的发现各网站问题。<br>
+主要特点：</p>
+<p>系统可同时设置多个监控关键字。<br>
+系统提供3种报警功能：电脑发声报警、邮件提醒和短信提醒。<br>
+系统检测到问题后，可直观列出，可查看问题详细情况。<br>
+工具界面截图展示：</p>
+<figure data-type="image" tabindex="1"><img src="https://dd2086.github.io//post-images/1628261917637.png" alt="" loading="lazy"></figure>
+<p>购买咨询<br>
+有需要的朋友们，与我联系吧，功能实用，价格优惠，欢迎咨询！<br>
+联系人：王女士<br>
+邮箱：service_domonth@sina.com<br>
+网址：https://dd2086.github.io/2016/08/22/tools-jiank0/<br>
+更多功能不断开发中，我们向所有购买客户保证，提供免费软件功能升级服务！</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://dd2086.github.io/post/hello-gridea/</id>
