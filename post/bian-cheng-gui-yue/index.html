@@ -1,57 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://dd2086.github.io/</id>
-    <title>DD2086&apos;S Blog</title>
-    <updated>2021-08-06T15:55:15.681Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://dd2086.github.io/"/>
-    <link rel="self" href="https://dd2086.github.io/atom.xml"/>
-    <subtitle>欢迎光临！</subtitle>
-    <logo>https://dd2086.github.io/images/avatar.png</logo>
-    <icon>https://dd2086.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, DD2086&apos;S Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[接口定义最佳实践]]></title>
-        <id>https://dd2086.github.io/post/jie-kou-ding-yi-zui-jia-shi-jian/</id>
-        <link href="https://dd2086.github.io/post/jie-kou-ding-yi-zui-jia-shi-jian/">
-        </link>
-        <updated>2021-08-06T15:53:40.000Z</updated>
-        <content type="html"><![CDATA[<p>为功能定义， 不为个别使用方定义接口 例如自营有上门取件， 而POP不支持上门取件， 不要专门为自营定义组件， 而要把接口实现为自营和POP都可以用， 不过POP上游不传相关指令， 需要时就可以为POP开放此组件。</p>
-<p>例如接入三方路由， 要定义统一的三方路由订阅/拉取接口， 而非为每一个快递公司定义个别的组件， 如果某快递公司需要特殊字段， 要考虑特殊字段的通用性， 如果有通用性， 在通用接口上加上字段， 其他快递公司维持空， 如果没有通用性， 作为一个配置字段配置进去。</p>
-<p>方法参数与返回值定义规范 参数定义明确， 无冗余， 有参数约束说明注解 返回值中包含错误码， 明确定义错误码含义 服务幂等性实现 所有写服务必须满足幂等性， 允许重复调用 服务幂等性实现可根据业务特点实现， 建议使用业务主键做防重 服务版本规范（推荐） 服务报文：明确版本——服务提供方需升级时需明确兼容版本，不兼容明确报错 dto中添加serviceVersion int类型字段， 由该字段确认服务协议版本， 如果服务端升级， 最好向下兼容至少一个版本 写数据报文：带有时间戳——业务含义时间戳而不是服务调用时的时间戳， 目的是方便以后系统之间对账 报文中要明确null字段的处理方式： 1） 以key:null方式表示将原有key属性置为null 2） key不在报文中出现表示保持原状 大数据量交互规范 API报文/MQ消息报文超过1M， 要上传到jfs或jss中， 在报文中包含数据存储地址， 接收/消费方从存储地址中下载数据处理</p>
-<p>系统异步交互握手机制（重要系统推荐使用） 发送与接收系统明确握手机制，保证消息传递可靠性。比如对账系统或接收方发送ack报文</p>
-<p>系统升级（建议） 明确系统升级时对历史数据采用版本兼容还是数据补全方式：建议采用可识别数据版本的方式。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[应用连接数据库超时设置]]></title>
-        <id>https://dd2086.github.io/post/ying-yong-lian-jie-shu-ju-ku-chao-shi-she-zhi/</id>
-        <link href="https://dd2086.github.io/post/ying-yong-lian-jie-shu-ju-ku-chao-shi-she-zhi/">
-        </link>
-        <updated>2021-08-06T15:51:01.000Z</updated>
-        <content type="html"><![CDATA[<p>JDBC mysql driver连接串超时设置 jdbc:mysql://xxx.xx.xxx.xxx:3306/database?connectTimeout=60000&amp;socketTimeout=60000 如上连接串实例， 可以通过connectTimeout和socketTimeout设置超时， 含义说明：</p>
-<p>connectTimeout： 和mysql服务器建立socket连接的超时时间， 默认值0， 表示不设置超时， 单位为毫秒，建议设置为30000 socketTimeout：客户端和mysql服务器之间建立socket后， 读取/写入socket时的等待超时时间， linux系统默认的socketTimeout为半小时，可以不设置 这两个超时也可以配置到dbcp的connectionProperties属性中</p>
-<p>连接池配置超时 maxWait: 表示从连接池取连接， 连接池中没有可用连接时的等待时间， 默认值为0， 表示无限等待， 单位为毫秒， 建议设置为60000足够， 60s取不到连接就早点报错吧</p>
-<p>mybatis配置查询超时 在mybatis配置文件中配置默认查询超时时间： defaultStatementTimeout， 单位为秒，不设置则会无限等待</p>
-<p>如果某一些sql语句需要执行超过defaultStatementTimeout可以通过Mapper文件单独设置sql的超时时间<br>
-事务超时 事务超时用于控制事务执行的超时， 执行时间是事务内所有代码执行时间总和， 单位为秒。<br>
-事务超时有两种配置方式，一种是注解：</p>
-<p>在spring的配置文件中配置注解驱动：</p>
-<p>&lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;&gt;&lt;/tx:annotation-driven&gt; 然后在代码中添加@Transactional注解， 此时可以在注解中设置事务超时时间， 单位为秒</p>
-<p>@Transactional(timeout=2) public void doSomething(Foo foo) { //do something } 另外一种配置超时的时间是通过spring的tx:advice节点来设置， 单位为秒</p>
-<p>&lt;tx:advice transaction-manager=&quot;transactionManager&quot;&gt; tx:attributesType &lt;tx:method name=&quot;update*&quot; timeout=&quot;3&quot;&gt;&lt;/tx:method&gt; &lt;tx:method name=&quot;delete*&quot; timeout=&quot;3&quot;&gt;&lt;/tx:method&gt; &lt;/tx:attributesType&gt; &lt;/tx:advice&gt; 事务超时无法全局配置。上述两种配置方式只能有一种起作用。</p>
-<p>参考资料： http://www.cubrid.org/blog/understanding-jdbc-internals-and-timeout-configuration</p>
-<p>http://www.mybatis.org/mybatis-3/configuration.html</p>
-<p>https://commons.apache.org/proper/commons-dbcp/configuration.html</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[编程规约]]></title>
-        <id>https://dd2086.github.io/post/bian-cheng-gui-yue/</id>
-        <link href="https://dd2086.github.io/post/bian-cheng-gui-yue/">
-        </link>
-        <updated>2021-08-06T15:49:56.000Z</updated>
-        <content type="html"><![CDATA[<p>命名规约： 【强制】所有编程相关的命名均不能以下划线或美元符号开始，也不能以下划线或美元符号结束。 反例： _name / _name / $Object / name / name/Object<br>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>编程规约 | DD2086&#39;S Blog</title>
+<meta name="description" content="欢迎光临！">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://dd2086.github.io//favicon.ico?v=1628265231690">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://dd2086.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://dd2086.github.io/">
+        <img class="avatar" src="https://dd2086.github.io//images/avatar.png?v=1628265231690" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://dd2086.github.io/">
+        <h1 class="site-title">DD2086&#39;S Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">编程规约</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-08-06</span>
+            
+          </div>
+          <div class="post-content">
+            <p>命名规约： 【强制】所有编程相关的命名均不能以下划线或美元符号开始，也不能以下划线或美元符号结束。 反例： _name / _name / $Object / name / name/Object<br>
 【强制】所有编程相关的命名严禁使用拼音与英文混合的方式，更不允许直接使用中文的方式。 说明：正确的英文拼写和语法可以让阅读者易于理解，避免歧义。注意，即使纯拼音命名方式也要避免采用。 反例： DaZhePromotion [打折] / getPingfenByName() [评分] / int 变量 = 3; 正例： ali / alibaba / taobao / cainiao / aliyun / youku / hangzhou 等国际通用的名称，可视为英文。</p>
 <p>【强制】类名使用UpperCamelCase风格，必须遵从驼峰形式，但以下情形例外：（领域模型的相关命名）DO / DTO / VO / DAO等。 正例：MarcoPolo / UserDO / HtmlDTO / XmlService / TcpUdpDeal / TaPromotion 反例：macroPolo / UserDo / HTMLDto / XMLService / TCPUDPDeal / TAPromotion</p>
 <p>【强制】方法名、参数名、成员变量、局部变量都统一使用lowerCamelCase风格，必须遵从驼峰形式。 正例： localValue / getHttpMessage() / inputUserId</p>
@@ -312,69 +347,58 @@ logger.debug(&quot;Processing trade with id: &quot; + id + &quot; symbol: &quot;
 <p>【推荐】可以使用warn日志级别来记录用户输入参数错误的情况，避免用户投诉时，无所适从。注意日志输出的级别，error级别只记录系统逻辑出错、异常、或者重要的错误信息。如非必要，请不要在此场景打出error级别，避免频繁报警。</p>
 <p>【推荐】谨慎地记录日志。生产环境禁止输出debug日志；有选择地输出info日志；如果使用warn来记录刚上线时的业务行为信息，一定要注意日志输出量的问题，避免把服务器磁盘撑爆，并记得及时删除这些观察日志。 说明：大量地输出无效日志，不利于系统性能提升，也不利于快速定位错误点。纪录日志时请思考：这些日志真的有人看吗？看到这条日志你能做什么？能不能给问题排查带来好处？</p>
 <p>【参考】如果日志用英文描述不清楚，推荐使用中文注释。对于中文UTF-8的日志，在secureCRT中，set encoding=utf-8；如果中文字符还乱码，请设置：全局&gt;默认的会话设置&gt;外观&gt;字体&gt;选择字符集gb2312；如果还不行，执行命令：set termencoding=gbk，并且直接使用中文来进行检索。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[舆情监控工具之-“我为政府网站找错”]]></title>
-        <id>https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/</id>
-        <link href="https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/">
-        </link>
-        <updated>2021-08-06T14:56:01.000Z</updated>
-        <content type="html"><![CDATA[<p>舆情监控工具之–“我为政府网站找错”–从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。</p>
-<p>舆情监控工具之–“我为政府网站找错”<br>
-从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。甚至，开普互联公司还为国办开发了一个专门的“我要找错”系统，将各级政府网站的问题在“曝光台”上进行公开（网址：http://jiucuo.kaipuyun.cn/errorInfo/search）。借此，我为大家推荐一款“曝光台”的舆情监控工具。</p>
-<p>工具名称：舆情监控工具之–“我为政府网站找错”<br>
-此款工具功能简单、实用，操作便捷，省去了很多人工监测的麻烦，方便快捷的发现各网站问题。<br>
-主要特点：</p>
-<p>系统可同时设置多个监控关键字。<br>
-系统提供3种报警功能：电脑发声报警、邮件提醒和短信提醒。<br>
-系统检测到问题后，可直观列出，可查看问题详细情况。<br>
-工具界面截图展示：<br>
-<img src="https://dd2086.github.io//post-images/imgs/1.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/2.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/3.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/4.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/5.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/6.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/7.png" alt="" loading="lazy"></p>
-<p>购买咨询<br>
-有需要的朋友们，与我联系吧，功能实用，价格优惠，欢迎咨询！<br>
-联系人：王女士<br>
-邮箱：service_domonth@sina.com<br>
-网址：https://dd2086.github.io/2016/08/22/tools-jiank0/<br>
-更多功能不断开发中，我们向所有购买客户保证，提供免费软件功能升级服务！</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://dd2086.github.io/post/hello-gridea/</id>
-        <link href="https://dd2086.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
-]]></content>
-    </entry>
-</feed>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://dd2086.github.io/post/yu-qing-jian-kong-gong-ju-zhi-wo-wei-zheng-fu-wang-zhan-zhao-cuo/">
+              <h3 class="post-title">
+                下一篇：舆情监控工具之-“我为政府网站找错”
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">欢迎光临！</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://dd2086.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

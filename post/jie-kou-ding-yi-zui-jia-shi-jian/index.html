@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Gridea | DD2086&#39;S Blog</title>
+<title>接口定义最佳实践 | DD2086&#39;S Blog</title>
 <meta name="description" content="欢迎光临！">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -78,50 +78,35 @@
 
 
       <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">接口定义最佳实践</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-08-06</span>
+            
+          </div>
+          <div class="post-content">
+            <p>为功能定义， 不为个别使用方定义接口 例如自营有上门取件， 而POP不支持上门取件， 不要专门为自营定义组件， 而要把接口实现为自营和POP都可以用， 不过POP上游不传相关指令， 需要时就可以为POP开放此组件。</p>
+<p>例如接入三方路由， 要定义统一的三方路由订阅/拉取接口， 而非为每一个快递公司定义个别的组件， 如果某快递公司需要特殊字段， 要考虑特殊字段的通用性， 如果有通用性， 在通用接口上加上字段， 其他快递公司维持空， 如果没有通用性， 作为一个配置字段配置进去。</p>
+<p>方法参数与返回值定义规范 参数定义明确， 无冗余， 有参数约束说明注解 返回值中包含错误码， 明确定义错误码含义 服务幂等性实现 所有写服务必须满足幂等性， 允许重复调用 服务幂等性实现可根据业务特点实现， 建议使用业务主键做防重 服务版本规范（推荐） 服务报文：明确版本——服务提供方需升级时需明确兼容版本，不兼容明确报错 dto中添加serviceVersion int类型字段， 由该字段确认服务协议版本， 如果服务端升级， 最好向下兼容至少一个版本 写数据报文：带有时间戳——业务含义时间戳而不是服务调用时的时间戳， 目的是方便以后系统之间对账 报文中要明确null字段的处理方式： 1） 以key:null方式表示将原有key属性置为null 2） key不在报文中出现表示保持原状 大数据量交互规范 API报文/MQ消息报文超过1M， 要上传到jfs或jss中， 在报文中包含数据存储地址， 接收/消费方从存储地址中下载数据处理</p>
+<p>系统异步交互握手机制（重要系统推荐使用） 发送与接收系统明确握手机制，保证消息传递可靠性。比如对账系统或接收方发送ack报文</p>
+<p>系统升级（建议） 明确系统升级时对历史数据采用版本兼容还是数据补全方式：建议采用可识别数据版本的方式。</p>
 
-        <div class="current-tag-container">
-          <h2 class="title">
-            <i class="icon icon-pricetags-outline"></i> Gridea
-          </h2> 
+          </div>
         </div>
 
         
-<section class="post-item">
-    <div class="content">
-      <a href="https://dd2086.github.io/post/hello-gridea/">
-        <h2 class="post-title">Hello Gridea</h2>
-      </a>
-      <div class="post-abstract">
-        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
+          <div class="next-post">
+            <a class="purple-link" href="https://dd2086.github.io/post/ying-yong-lian-jie-shu-ju-ku-chao-shi-she-zhi/">
+              <h3 class="post-title">
+                下一篇：应用连接数据库超时设置
+              </h3>
+            </a>
+          </div>
+          
       </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2018-12-12</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://dd2086.github.io/tag/SJMH4v-FE/">
-                Gridea
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-    
-  </section>
 
-
-<div class="pagination-container">
-  
-  
-</div>
-
-
-      </div>
+      
 
       <div class="site-footer">
   <div class="slogan">欢迎光临！</div>

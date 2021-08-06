@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>舆情监控工具之-“我为政府网站找错” | DD2086&#39;S Blog</title>
+<title>应用连接数据库超时设置 | DD2086&#39;S Blog</title>
 <meta name="description" content="欢迎光临！">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,44 +80,35 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">舆情监控工具之-“我为政府网站找错”</h2>
+          <h2 class="post-title">应用连接数据库超时设置</h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> 2021-08-06</span>
             
           </div>
           <div class="post-content">
-            <p>舆情监控工具之–“我为政府网站找错”–从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。</p>
-<p>舆情监控工具之–“我为政府网站找错”<br>
-从2015年国办开展第一次全国政府网站普查以来，全国很多政府部门都在为自己的网站担心，同时进行了很多网站检查、监控、内容优化的工作。甚至，开普互联公司还为国办开发了一个专门的“我要找错”系统，将各级政府网站的问题在“曝光台”上进行公开（网址：http://jiucuo.kaipuyun.cn/errorInfo/search）。借此，我为大家推荐一款“曝光台”的舆情监控工具。</p>
-<p>工具名称：舆情监控工具之–“我为政府网站找错”<br>
-此款工具功能简单、实用，操作便捷，省去了很多人工监测的麻烦，方便快捷的发现各网站问题。<br>
-主要特点：</p>
-<p>系统可同时设置多个监控关键字。<br>
-系统提供3种报警功能：电脑发声报警、邮件提醒和短信提醒。<br>
-系统检测到问题后，可直观列出，可查看问题详细情况。<br>
-工具界面截图展示：<br>
-<img src="https://dd2086.github.io//post-images/imgs/1.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/2.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/3.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/4.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/5.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/6.png" alt="" loading="lazy"><br>
-<img src="https://dd2086.github.io//post-images/imgs/7.png" alt="" loading="lazy"></p>
-<p>购买咨询<br>
-有需要的朋友们，与我联系吧，功能实用，价格优惠，欢迎咨询！<br>
-联系人：王女士<br>
-邮箱：service_domonth@sina.com<br>
-网址：https://dd2086.github.io/2016/08/22/tools-jiank0/<br>
-更多功能不断开发中，我们向所有购买客户保证，提供免费软件功能升级服务！</p>
+            <p>JDBC mysql driver连接串超时设置 jdbc:mysql://xxx.xx.xxx.xxx:3306/database?connectTimeout=60000&amp;socketTimeout=60000 如上连接串实例， 可以通过connectTimeout和socketTimeout设置超时， 含义说明：</p>
+<p>connectTimeout： 和mysql服务器建立socket连接的超时时间， 默认值0， 表示不设置超时， 单位为毫秒，建议设置为30000 socketTimeout：客户端和mysql服务器之间建立socket后， 读取/写入socket时的等待超时时间， linux系统默认的socketTimeout为半小时，可以不设置 这两个超时也可以配置到dbcp的connectionProperties属性中</p>
+<p>连接池配置超时 maxWait: 表示从连接池取连接， 连接池中没有可用连接时的等待时间， 默认值为0， 表示无限等待， 单位为毫秒， 建议设置为60000足够， 60s取不到连接就早点报错吧</p>
+<p>mybatis配置查询超时 在mybatis配置文件中配置默认查询超时时间： defaultStatementTimeout， 单位为秒，不设置则会无限等待</p>
+<p>如果某一些sql语句需要执行超过defaultStatementTimeout可以通过Mapper文件单独设置sql的超时时间<br>
+事务超时 事务超时用于控制事务执行的超时， 执行时间是事务内所有代码执行时间总和， 单位为秒。<br>
+事务超时有两种配置方式，一种是注解：</p>
+<p>在spring的配置文件中配置注解驱动：</p>
+<p>&lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;&gt;&lt;/tx:annotation-driven&gt; 然后在代码中添加@Transactional注解， 此时可以在注解中设置事务超时时间， 单位为秒</p>
+<p>@Transactional(timeout=2) public void doSomething(Foo foo) { //do something } 另外一种配置超时的时间是通过spring的tx:advice节点来设置， 单位为秒</p>
+<p>&lt;tx:advice transaction-manager=&quot;transactionManager&quot;&gt; tx:attributesType &lt;tx:method name=&quot;update*&quot; timeout=&quot;3&quot;&gt;&lt;/tx:method&gt; &lt;tx:method name=&quot;delete*&quot; timeout=&quot;3&quot;&gt;&lt;/tx:method&gt; &lt;/tx:attributesType&gt; &lt;/tx:advice&gt; 事务超时无法全局配置。上述两种配置方式只能有一种起作用。</p>
+<p>参考资料： http://www.cubrid.org/blog/understanding-jdbc-internals-and-timeout-configuration</p>
+<p>http://www.mybatis.org/mybatis-3/configuration.html</p>
+<p>https://commons.apache.org/proper/commons-dbcp/configuration.html</p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://dd2086.github.io/post/hello-gridea/">
+            <a class="purple-link" href="https://dd2086.github.io/post/bian-cheng-gui-yue/">
               <h3 class="post-title">
-                下一篇：Hello Gridea
+                下一篇：编程规约
               </h3>
             </a>
           </div>
